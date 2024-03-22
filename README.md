@@ -9,7 +9,7 @@ This project implements a Face Recognition Attendance System using OpenCV (Open 
 - **Attendance Tracking**: Records attendance based on recognized faces and timestamps.
 - **User Interface (UI)**: Provides a simple and intuitive interface for users to interact with the system.
 
-![Video Demo](https://github.com/Deepak484sakthi2004/FaceRecognitionAttendanceSystem/raw/main/raw/videos/demo_video.mp4)
+![Video Demo](https://github.com/Deepak484sakthi2004/FaceRecognitionAttendanceSystem/raw/main/raw/videos/mini_project.mp4)
 
 ## Installation
 
