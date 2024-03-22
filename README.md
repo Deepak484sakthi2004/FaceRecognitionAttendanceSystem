@@ -27,17 +27,16 @@ This project implements a Face Recognition Attendance System using OpenCV (Open 
 
 ## Usage
 
-1. Train the CNN model:
+1. Train the CNN model after updating the Database to create encodings
 
     ```bash
-    python train_model.py
+    python encodeGenerator.py
     ```
 
 2. Run the Face Recognition Attendance System:
 
     ```bash
     python Database.py
-    python encodeGenerator.py
     python main.py
     ```
 
