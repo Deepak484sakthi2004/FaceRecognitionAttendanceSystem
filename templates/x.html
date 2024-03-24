@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Attendance Maintenance System</title>
+</head>
+
+<body>
+    {% if 'user' in session %}
+        <a href="/logout"><button>Logout</button></a>
+    {% endif %}
+
+    <h1>Welcome to the Facial Attendance Maintenance System {{user_name}}!</h1>
+    <p>
+        The real-time face recognition system for student attendance management utilizes a combination of computer vision and Deep learning techniques to efficiently and accurately track attendance.
+    </p>
+    
+    <h2>System Workflow:</h2>
+    <ul>
+        <li>
+            Face Detection: The system starts by detecting and isolating faces within live video feeds. This process involves using computer vision algorithms to identify facial regions in the video frames.
+        </li>
+        <li>
+            Feature Extraction: Once faces are detected, the system extracts important facial features such as shape, texture, and color. These features are essential for distinguishing one face from another.
+        </li>
+        <li>
+            Face Embeddings: The extracted facial features are encoded into mathematical representations called face embeddings. Face embeddings capture unique characteristics of each face in a compact numerical format.
+        </li>
+        <li>
+            Database Comparison: The encoded face vectors are then compared against a pre-existing database of registered students. This comparison is typically done using machine learning algorithms that measure the similarity between face embeddings.
+        </li>
+    </ul>
+</body>
+</html>

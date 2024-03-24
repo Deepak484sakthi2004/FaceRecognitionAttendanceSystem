@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* Add your CSS styles here */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px; /* Initially hide the sidebar */
+            width: 250px;
+            height: 100%;
+            background-color: #f4f4f4;
+            transition: all 0.3s ease;
+        }
+
+        .content {
+            margin-left: 250px; /* Adjust the content area when the sidebar is visible */
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Add more styles as needed */
+
+        /* Style for video element */
+        #camera-feed {
+            width: 50%;
+            height: auto;
+            margin-top: 20px; /* Adjust spacing as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <h3>Students:</h3>
+        <ul id="student-list">
+            <!-- Student details will be dynamically added here -->
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Welcome to the Dashboard</h1>
+        <h2>User: {{user_email}}</h2>
+        <button onclick="toggleSidebar()">Toggle Sidebar</button>
+        <a href="/add_student">Add Student</a>
+        <div class="logout-btn">
+            <a href="/logout"><button>Logout</button></a>
+        </div>
+        <!-- Add other dashboard features here -->
+
+        <!-- Camera feed -->
+        <video id="camera-feed" autoplay playsinline></video>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar.style.left === '-250px') {
+                sidebar.style.left = '0';
+            } else {
+                sidebar.style.left = '-250px';
+            }
+        }
+
+        // Access the camera feed
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const videoElement = document.getElementById('camera-feed');
+                videoElement.srcObject = stream;
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
+        }
+
+        // Call startCamera when the page loads
+        window.onload = function() {
+            startCamera();
+        };
+
+        // Sample students data for demonstration
+        var students = [
+            { id: 1, name: "John Doe" },
+            { id: 2, name: "Jane Smith" },
+            { id: 3, name: "Alice Johnson" }
+        ];
+
+        console.log("List of students:");
+        students.forEach(function(student) {
+            console.log("ID: " + student.id + ", Name: " + student.name);
+        });
+    </script>
+</body>
+</html>
