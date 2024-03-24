@@ -7,14 +7,7 @@ from auth import create_user
 app = Flask(__name__)
 
 firebaseConfig = {
-    "apiKey": 'AIzaSyA6sUSsHws_oGFpc_4EEPJbX1NbdgnNefU',
-    "authDomain": 'database-83124.firebaseapp.com',
-    "projectId": 'database-83124',
-    "storageBucket": 'database-83124.appspot.com',
-    "messagingSenderId": '799990425229',
-    "appId": '1:799990425229:web:d86f5f3444f7dd686064c4',
-    "measurementId": 'G-RY3LE27TTG',
-    'databaseURL':''
+
   };
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
