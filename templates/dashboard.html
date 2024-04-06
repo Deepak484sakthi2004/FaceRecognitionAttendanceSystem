@@ -5,34 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        /* Add your CSS styles here */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://stjosephs.ac.in/today30102021/Six.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Fixed background */
+            padding-top: 60px; /* Space for header */
+        }
+
+        /* Sidebar Styles */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -250px; /* Initially hide the sidebar */
+            left: -250px;
             width: 250px;
             height: 100%;
-            background-color: #f4f4f4;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+            padding-top: 60px; /* Space for header */
             transition: all 0.3s ease;
+            overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
+            z-index: 1; /* Ensure sidebar is above content */
         }
 
+        .sidebar h3 {
+            color: #fff;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            padding: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar li:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white on hover */
+        }
+
+        /* Content Styles */
         .content {
-            margin-left: 250px; /* Adjust the content area when the sidebar is visible */
+            margin-left: 250px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+        }
+
+        .content h1 {
+            margin-top: 0;
+            color: #333; /* Dark text color */
+        }
+
+        .content h2 {
+            color: #555; /* Medium text color */
+        }
+
+        .btn {
+            background-color: #007bff; /* Blue button */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
         }
 
         .logout-btn {
             position: absolute;
             top: 10px;
-            right: 10px;
+            right: 20px;
         }
 
-        /* Add more styles as needed */
-
-        /* Style for video element */
+        /* Camera feed */
         #camera-feed {
-            width: 50%;
-            height: auto;
-            margin-top: 20px; /* Adjust spacing as needed */
+            width: auto;
+            max-height: calc(100vh - 150px); /* Adjust as needed */
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow effect */
         }
     </style>
 </head>
@@ -47,54 +114,88 @@
     <div class="content">
         <h1>Welcome to the Dashboard</h1>
         <h2>User: {{user_email}}</h2>
-        <button onclick="toggleSidebar()">Toggle Sidebar</button>
-        <a href="/add_student">Add Student</a>
+
+        <a href="#" class="btn" onclick="toggleSidebar()">Toggle Sidebar</a>
+
+        <a href="/add_student" class="btn">Add Student</a>
         <div class="logout-btn">
-            <a href="/logout"><button>Logout</button></a>
+            <a href="/logout" class="btn">Logout</a>
         </div>
-        <!-- Add other dashboard features here -->
-
-        <!-- Camera feed -->
-        <video id="camera-feed" autoplay playsinline></video>
-    </div>
-
-    <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            if (sidebar.style.left === '-250px') {
-                sidebar.style.left = '0';
-            } else {
-                sidebar.style.left = '-250px';
+        
+        <div id="studentData"></div>
+    
+ 
+        <script>
+            // Fetch student data passed from the backend
+            const students = {{ studentDetails | tojson | safe }};
+            
+            // Access and display student data
+            const studentDataContainer = document.getElementById("studentData");
+            studentDataContainer.innerHTML = ""; // Clear existing content
+            
+            // Loop through each student
+            for (const studentId in students) {
+                if (students.hasOwnProperty(studentId)) {
+                    const student = students[studentId];
+                    
+                    // Create HTML elements to display student data
+                    const studentElement = document.createElement("div");
+                    studentElement.innerHTML = `
+                        <a href="#" onclick="displayStudentId('${studentId}')">Student ID: ${studentId}</a>
+                    `;
+                    
+                    // Append student data to container
+                    studentDataContainer.appendChild(studentElement);
+                }
             }
-        }
-
-        // Access the camera feed
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                const videoElement = document.getElementById('camera-feed');
-                videoElement.srcObject = stream;
-            } catch (error) {
-                console.error('Error accessing camera:', error);
+    
+            // Function to toggle sidebar
+            function toggleSidebar() {
+                var sidebar = document.getElementById('sidebar');
+                if (sidebar.style.left === '-250px') {
+                    sidebar.style.left = '0';
+                } else {
+                    sidebar.style.left = '-250px';
+                }
             }
+    
+            // Function to display student ID in sidebar
+            function displayStudentId(studentId) {
+                var sidebar = document.getElementById('sidebar');
+                sidebar.innerHTML = `Student ID: ${studentId}`;
+            }
+        </script>
+    <!-- JavaScript for handling clicks on student IDs -->
+    <!-- <script>
+        // Function to handle clicks on student IDs
+        function showStudentDetails(studentId) {
+            // Fetch student details using student ID (You may use AJAX request here)
+            // For demonstration purpose, here we are just updating the student details section with the selected student ID
+            document.getElementById('studentDetails').innerText = `Student ID: ${studentId}`;
         }
-
-        // Call startCamera when the page loads
-        window.onload = function() {
-            startCamera();
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/data', true);
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                // Parse JSON response
+                var responseData = JSON.parse(xhr.responseText);
+                // Log data to console
+                console.log(responseData);
+            }
         };
+        xhr.send();
+        // Get the list of student IDs from the server (You may use AJAX request here)
+        // For demonstration purpose, here we are assuming studentIds is an array of student IDs passed from the Flask route
+        var studentIds = 'dfdf';
 
-        // Sample students data for demonstration
-        var students = [
-            { id: 1, name: "John Doe" },
-            { id: 2, name: "Jane Smith" },
-            { id: 3, name: "Alice Johnson" }
-        ];
-
-        console.log("List of students:");
-        students.forEach(function(student) {
-            console.log("ID: " + student.id + ", Name: " + student.name);
+        // Populate the sidebar with student IDs
+        var studentList = document.getElementById('studentList');
+        studentIds.forEach(function(studentId) {
+            var listItem = document.createElement('li');
+            listItem.innerHTML = `<a href="#" onclick="showStudentDetails('${studentId}')">${studentId}</a>`;
+            studentList.appendChild(listItem);
         });
-    </script>
+    </script> -->
+
 </body>
 </html>
