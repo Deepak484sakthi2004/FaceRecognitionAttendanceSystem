@@ -16,7 +16,7 @@ This project implements a Face Recognition Attendance System using OpenCV (Open 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your_username/face-recognition-attendance.git
+    git clone https://github.com/deepak484sakthi2004/face-recognition-attendance.git
     ```
 
 2. Install dependencies:
